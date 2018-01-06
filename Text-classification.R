@@ -7,8 +7,8 @@ lapply(libs, require, character.only = TRUE)
 options(stringsAsFactors = FALSE) # we don't want to convert text to string
 
 # Set parameters
-candidates <- c("nonnuclear","nuclear")
-pathname <- "C:\\ml\\Text mining\\abstract text"
+candidates <- c("pasta","pizza")
+pathname <- "C:/ML/Text-mining/abstract text"
 
 # clean text
 
@@ -29,7 +29,7 @@ generateTDM <- function(cand, path){
   s.dir <- sprintf("%s/%s", path,cand)
   s.cor <- Corpus(DirSource(directory = s.dir, encoding = "UTF8"))
   s.cor.cl <- cleanCorpus(s.cor)
-  s.tdm <- TermDocumentMatrixtrix(s.cor.cl)
+  s.tdm <- TermDocumentMatrix(s.cor.cl)
   
   s.tdm <- removeSparseTerms(s.tdm, 0.7)
   result <- list(name = cand,tdm = s.tdm)
@@ -78,9 +78,9 @@ knn.pred <- knn(tdm.stack.nl[train.idx,], tdm.stack.nl[test.idx, ], tdm.cand[tra
 #1. Learning it without the name of the candidate
 #2. Testing it without the name of the candidate
 
-#3. Giving the name of the candidates
+#3. Giving the name of the candidates pasta,pizza
 
 
 # Accuracy
-conf.mat <- table("Predictions" = knn.pred, actual = tdm.cand[test.idx])
+conf.mat <- table("Predictions" = knn.pred, Actual = tdm.cand[test.idx])
 (accuracy <- sum(diag(conf.mat)) / length(test.idx) * 100)
